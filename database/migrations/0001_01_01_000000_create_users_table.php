@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable()->default(null);
             $table->string('password');
             $table->rememberToken();
-            $table->string("status")->default(UserStatusEnum::PENDING->value);
+            $table->string('status')->default(UserStatusEnum::PENDING->value);
             $table->timestamps();
             $table->softDeletes();
         });

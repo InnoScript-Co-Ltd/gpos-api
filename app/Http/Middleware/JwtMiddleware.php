@@ -6,13 +6,13 @@ use App\Traits\JsonResponder;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JwtMiddleware
 {
-
     use JsonResponder;
+
     /**
      * Handle an incoming request.
      *
@@ -21,7 +21,7 @@ class JwtMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         try {
-           $user = JWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (JWTException $e) {
             return $this->unauthenticated();
         }
