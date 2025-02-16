@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
             Route::get('/', [CategoryController::class, 'index']);
             Route::get('/{id}', [CategoryController::class, 'show']);
             Route::delete('/{id}', [CategoryController::class, 'destroy']);
+        });
+
+        Route::prefix('item')->group(function () {
+            Route::post('/', [ItemController::class, 'store']);
+            Route::put('/{id}', [ItemController::class, 'update']);
+            Route::get('/', [ItemController::class, 'index']);
+            Route::get('/{id}', [ItemController::class, 'show']);
+            Route::delete('/{id}', [ItemController::class, 'destroy']);
         });
     });
 

@@ -12,13 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->uuid()->primary()->index();
+            $table->foreignUuid('category_id');
             $table->string('name')->unique();
+            $table->string('photo')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
+            $table->unsignedBigInteger('qty')->default(0);
+            $table->float('price', precision: 12)->default(0);
+            $table->string('qrcode')->nullable()->default(null);
             $table->string('status')->default(GeneralStatusEnum::ACTIVE->value);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('uuid')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -27,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('items');
     }
 };
