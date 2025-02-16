@@ -31,7 +31,8 @@ class ItemController extends Controller
     public function index()
     {
         try {
-            $items = Item::sortingQuery()
+            $items = Item::with(['category'])
+                ->sortingQuery()
                 ->filterQuery()
                 ->filterDateQuery()
                 ->paginationQuery();
@@ -45,10 +46,12 @@ class ItemController extends Controller
     public function show($id)
     {
         try {
-            $item = Item::findOrFail($id);
+            $item = Item::with(['category'])->findOrFail($id);
 
             return $this->success('item detail is retrived successfully', $item);
         } catch (Exception $e) {
+            dd($e);
+
             return $this->internalServerError();
         }
     }
