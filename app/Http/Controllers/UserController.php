@@ -79,6 +79,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
+            DB::commit();
 
             return $this->noContent('user is deleted successfully');
         } catch (Exception $e) {

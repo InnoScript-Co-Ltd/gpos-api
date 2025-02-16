@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->uuid()->primary()->index();
+            $table->id('id')->primary()->index()->autoIncrement();
             $table->string('name')->unique();
             $table->string('description')->nullable()->default(null);
             $table->string('status')->default(GeneralStatusEnum::ACTIVE->value);

@@ -27,6 +27,7 @@ class ItemCreateRequest extends FormRequest
         return [
             'name' => 'required | string | unique:items,name',
             'description' => 'nullable | string',
+            'sku' => 'nullable | string | unique:items,sku',
             'category_id' => "required | in:$categories",
             'photo' => 'nullable | string',
             'qty' => 'nullable | numeric ',

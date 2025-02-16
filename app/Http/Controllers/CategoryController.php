@@ -22,6 +22,7 @@ class CategoryController extends Controller
 
             return $this->success('new category is created successfully', $category);
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
 
             return $this->internalServerError();

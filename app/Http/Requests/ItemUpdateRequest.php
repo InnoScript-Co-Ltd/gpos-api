@@ -34,6 +34,7 @@ class ItemUpdateRequest extends FormRequest
             'name' => "nullable | string | unique:items,name,$itemId",
             'description' => 'nullable | string',
             'category_id' => "nullable | in:$categories",
+            'sku' => "nullable | string | unique:items,sku,$itemId",
             'photo' => 'nullable | string',
             'qty' => 'nullable | numeric ',
             'price' => 'nullable | numeric',

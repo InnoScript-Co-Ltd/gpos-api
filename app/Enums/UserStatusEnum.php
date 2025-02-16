@@ -6,5 +6,5 @@ enum UserStatusEnum: string
 {
     case PENDING = 'PENDING';
     case ACTIVE = 'ACTIVE';
-    case BLOCK = 'DIACTIVE';
+    case BLOCK = 'BLOCK';
 }

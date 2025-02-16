@@ -13,9 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->uuid()->primary()->index();
-            $table->foreignUuid('category_id');
+            $table->id('id')->primary()->index()->autoIncrement();
+            $table->foreignId('category_id');
             $table->string('name')->unique();
+            $table->string('sku')->nullable()->default(null);
             $table->string('photo')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
             $table->unsignedBigInteger('qty')->default(0);
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('category_id')->references('uuid')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

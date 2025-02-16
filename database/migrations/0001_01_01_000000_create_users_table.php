@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id('id')->primary()->index()->autoIncrement();
             $table->string('name');
             $table->string('profile')->nullable()->default(null);
             $table->date('dob')->nullable()->default(null);
