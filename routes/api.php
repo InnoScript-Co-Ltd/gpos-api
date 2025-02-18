@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +41,21 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
             Route::get('/', [ItemController::class, 'index']);
             Route::get('/{id}', [ItemController::class, 'show']);
             Route::delete('/{id}', [ItemController::class, 'destroy']);
+        });
+
+        Route::prefix('invoice')->group(function () {
+            Route::get('/', [InvoiceController::class, 'index']);
+            Route::get('/{id}', [InvoiceController::class, 'show']);
+        });
+
+        Route::prefix('setting')->group(function () {
+            Route::post('/{id}', [SettingController::class, 'update']);
+            Route::get('/{id}', [SettingController::class, 'show']);
+        });
+
+        Route::prefix('invoice-item')->group(function () {
+            Route::post('/', [InvoiceItemController::class, 'update']);
+            Route::get('/{id}', [InvoiceItemController::class, 'show']);
         });
     });
 

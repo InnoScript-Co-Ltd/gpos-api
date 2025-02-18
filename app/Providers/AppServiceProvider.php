@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\QueryBuilderHelper;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerQueryBuilderMacros();
+    }
+
+    private function registerBlueprintMacros()
+    {
+        Blueprint::macro('auditColumns', function () {
+            $this->timestamps();
+            $this->softDeletes();
+
+            return $this;
+        });
     }
 
     private function registerQueryBuilderMacros()

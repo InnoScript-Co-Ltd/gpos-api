@@ -50,8 +50,6 @@ class ItemController extends Controller
 
             return $this->success('item detail is retrived successfully', $item);
         } catch (Exception $e) {
-            dd($e);
-
             return $this->internalServerError();
         }
     }
