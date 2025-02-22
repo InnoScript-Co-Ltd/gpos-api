@@ -44,6 +44,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
         });
 
         Route::prefix('invoice')->group(function () {
+            Route::post('/', [InvoiceController::class, 'store']);
             Route::get('/', [InvoiceController::class, 'index']);
             Route::get('/{id}', [InvoiceController::class, 'show']);
         });

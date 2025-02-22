@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('profile')->nullable()->default(null);
             $table->date('dob')->nullable()->default(null);
+            $table->string('gender')->default('MALE');
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable()->default(null);

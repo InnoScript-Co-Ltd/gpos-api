@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\GenderTypeEnum;
-use App\Helpers\Enum;
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateReqeust extends FormRequest
+class InvoiceCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +22,14 @@ class UserCreateReqeust extends FormRequest
      */
     public function rules(): array
     {
-        $genderTypeEnum = implode(',', (new Enum(GenderTypeEnum::class))->values());
+        $itemIds = implode(',', Item::pluck('id')->toArray());
 
         return [
-            'name' => 'required | string | min:6 | max:24',
-            'gender' => "required | string | in:$genderTypeEnum",
-            'email' => 'required | email | unique:users,email',
-            'password' => 'required | min:6 | max:18 | confirmed',
+            'items' => 'required | array',
+            'items.*.id' => "required | in:$itemIds",
+            'items.*.name' => 'required | string',
+            'items.*.price' => 'required | numeric',
+            'items.*.qty' => 'required | numeric',
         ];
     }
 }
