@@ -12,21 +12,16 @@ class InvoiceItem extends Model
     protected $table = 'invoice_items';
 
     protected $fillable = [
-        'category_id', 'invoice_id', 'item_id', 'name', 'qty', 'amount',
+        'category_id', 'iv_number', 'item_id', 'name', 'qty', 'price', 'amount',
     ];
 
     public function category()
     {
-        return $this->hasOne(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function item()
     {
-        return $this->hasOne(Item::class, 'item_id');
-    }
-
-    public function invoice()
-    {
-        return $this->hasOne(Invoice::class, 'invoice_id');
+        return $this->belongsTo(Item::class, 'item_id');
     }
 }

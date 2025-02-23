@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id');
             $table->foreignId('item_id');
-            $table->foreignId('invoice_id');
+            $table->string('iv_number');
             $table->string('name');
             $table->unsignedBigInteger('qty');
+            $table->float('price');
             $table->float('amount', 12);
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
         });
     }
 
