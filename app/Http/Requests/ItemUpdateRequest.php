@@ -35,7 +35,7 @@ class ItemUpdateRequest extends FormRequest
             'description' => 'nullable | string',
             'category_id' => "nullable | in:$categories",
             'sku' => "nullable | string | unique:items,sku,$itemId",
-            'photo' => 'nullable | string',
+            'photo' => 'nullable | file',
             'qty' => 'nullable | numeric ',
             'price' => 'nullable | numeric',
             'qrcode' => 'nullable | string',
