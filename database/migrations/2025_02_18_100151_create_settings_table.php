@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
+            $table->id('id');
             $table->string('shop_name')->nullable()->default(null);
             $table->string('logo')->nullable()->default(null);
             $table->string('phone')->nullable()->default(null);

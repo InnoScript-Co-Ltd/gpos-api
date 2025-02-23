@@ -50,8 +50,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
         });
 
         Route::prefix('setting')->group(function () {
-            Route::post('/{id}', [SettingController::class, 'update']);
-            Route::get('/{id}', [SettingController::class, 'show']);
+            Route::post('/', [SettingController::class, 'update']);
+            Route::get('/', [SettingController::class, 'show']);
         });
 
         Route::prefix('invoice-item')->group(function () {
