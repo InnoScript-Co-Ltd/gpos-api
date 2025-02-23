@@ -26,12 +26,12 @@ class UserFactory extends Factory
     {
 
         return [
-            'name' => "superadmin",
+            'name' => 'superadmin',
             'email' => 'superadmin@innoscript.co',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'status' => UserStatusEnum::ACTIVE->value
+            'status' => UserStatusEnum::ACTIVE->value,
         ];
     }
 

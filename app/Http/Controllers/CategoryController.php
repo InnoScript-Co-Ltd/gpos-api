@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateReqeust;
-use App\Http\Requests\UserUpdateReqeust;
-use App\Models\User;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
+use App\Models\Category;
 use DB;
 use Exception;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
-    public function store(UserCreateReqeust $request)
+    public function store(CategoryCreateRequest $request)
     {
         $payload = collect($request->validated());
 
         DB::beginTransaction();
 
         try {
-            $user = User::create($payload->toArray());
+            $category = Category::create($payload->toArray());
             DB::commit();
 
-            return $this->success('new user is created successfully', $user);
+            return $this->success('new category is created successfully', $category);
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
 
             return $this->internalServerError();
@@ -31,12 +32,12 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::sortingQuery()
+            $categories = Category::sortingQuery()
                 ->filterQuery()
                 ->filterDateQuery()
                 ->paginationQuery();
 
-            return $this->success('user list is retrived successfully', $users);
+            return $this->success('category list is retrived successfully', data: $categories);
         } catch (Exception $e) {
             return $this->internalServerError();
         }
@@ -45,26 +46,26 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $category = Category::findOrFail($id);
 
-            return $this->success('user detail is retrived successfully', $user);
+            return $this->success('category detail is retrived successfully', $category);
         } catch (Exception $e) {
             return $this->internalServerError();
         }
     }
 
-    public function update(UserUpdateReqeust $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
         $payload = collect($request->validated());
 
         try {
             DB::beginTransaction();
 
-            $user = User::findOrFail($id);
-            $user->update($payload->toArray());
+            $category = Category::findOrFail($id);
+            $category->update($payload->toArray());
             DB::commit();
 
-            return $this->success('user is updated successfully', $user);
+            return $this->success('category is updated successfully', $category);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -77,11 +78,10 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = User::findOrFail($id);
-            $user->delete();
-            DB::commit();
+            $category = Category::findOrFail($id);
+            $category->delete();
 
-            return $this->noContent('user is deleted successfully');
+            return $this->noContent('category is deleted successfully');
         } catch (Exception $e) {
             DB::rollBack();
 

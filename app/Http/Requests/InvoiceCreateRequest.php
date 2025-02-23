@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Item;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class InvoiceCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,9 +22,14 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
+        $itemIds = implode(',', Item::pluck('id')->toArray());
+
         return [
-            'email' => 'required | email',
-            'password' => 'required | min:6 | max:18',
+            'items' => 'required | array',
+            'items.*.id' => "required | in:$itemIds",
+            'items.*.name' => 'required | string',
+            'items.*.price' => 'required | numeric',
+            'items.*.qty' => 'required | numeric',
         ];
     }
 }

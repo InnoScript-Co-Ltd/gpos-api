@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\GenderTypeEnum;
+use App\Enums\GeneralStatusEnum;
 use App\Helpers\Enum;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateReqeust extends FormRequest
+class CategoryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +24,15 @@ class UserCreateReqeust extends FormRequest
      */
     public function rules(): array
     {
-        $genderTypeEnum = implode(',', (new Enum(GenderTypeEnum::class))->values());
+        $category = Category::findOrFail(request('id'));
+        $categoryId = $category->id;
+
+        $generalStatus = implode(',', (new Enum(GeneralStatusEnum::class))->values());
 
         return [
-            'name' => 'required | string | min:6 | max:24',
-            'gender' => "required | string | in:$genderTypeEnum",
-            'email' => 'required | email | unique:users,email',
-            'password' => 'required | min:6 | max:18 | confirmed',
+            'name' => "nullable | string | unique:categories,name,$categoryId",
+            'description' => 'nullable | string',
+            'status' => "nullable | string | in:$generalStatus",
         ];
     }
 }

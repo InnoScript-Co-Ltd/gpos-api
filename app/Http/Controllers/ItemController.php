@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateReqeust;
-use App\Http\Requests\UserUpdateReqeust;
-use App\Models\User;
+use App\Http\Requests\ItemCreateRequest;
+use App\Http\Requests\ItemUpdateRequest;
+use App\Models\Item;
 use DB;
 use Exception;
 
-class UserController extends Controller
+class ItemController extends Controller
 {
-    public function store(UserCreateReqeust $request)
+    public function store(ItemCreateRequest $request)
     {
         $payload = collect($request->validated());
 
         DB::beginTransaction();
 
         try {
-            $user = User::create($payload->toArray());
+            $item = Item::create($payload->toArray());
             DB::commit();
 
-            return $this->success('new user is created successfully', $user);
+            return $this->success('new item is created successfully', $item);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -31,12 +31,13 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::sortingQuery()
+            $items = Item::with(['category'])
+                ->sortingQuery()
                 ->filterQuery()
                 ->filterDateQuery()
                 ->paginationQuery();
 
-            return $this->success('user list is retrived successfully', $users);
+            return $this->success('item list is retrived successfully', $items);
         } catch (Exception $e) {
             return $this->internalServerError();
         }
@@ -45,26 +46,26 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $item = Item::with(['category'])->findOrFail($id);
 
-            return $this->success('user detail is retrived successfully', $user);
+            return $this->success('item detail is retrived successfully', $item);
         } catch (Exception $e) {
             return $this->internalServerError();
         }
     }
 
-    public function update(UserUpdateReqeust $request, $id)
+    public function update(ItemUpdateRequest $request, $id)
     {
         $payload = collect($request->validated());
 
         try {
             DB::beginTransaction();
 
-            $user = User::findOrFail($id);
-            $user->update($payload->toArray());
+            $item = Item::findOrFail($id);
+            $item->update($payload->toArray());
             DB::commit();
 
-            return $this->success('user is updated successfully', $user);
+            return $this->success('item is updated successfully', $item);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -77,11 +78,10 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = User::findOrFail($id);
-            $user->delete();
-            DB::commit();
+            $item = Item::findOrFail($id);
+            $item->delete();
 
-            return $this->noContent('user is deleted successfully');
+            return $this->noContent('item is deleted successfully');
         } catch (Exception $e) {
             DB::rollBack();
 

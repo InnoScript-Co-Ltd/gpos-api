@@ -13,16 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id('id')->primary()->index()->autoIncrement();
             $table->string('name');
             $table->string('profile')->nullable()->default(null);
             $table->date('dob')->nullable()->default(null);
+            $table->string('gender')->default('MALE');
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable()->default(null);
             $table->string('password');
             $table->rememberToken();
-            $table->string("status")->default(UserStatusEnum::PENDING->value);
+            $table->string('status')->default(UserStatusEnum::PENDING->value);
             $table->timestamps();
             $table->softDeletes();
         });
