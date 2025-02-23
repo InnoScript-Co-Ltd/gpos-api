@@ -8,7 +8,7 @@ use App\Helpers\Enum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateReqeust extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +33,7 @@ class UserUpdateReqeust extends FormRequest
 
         return [
             'name' => 'nullable | string',
-            'profile' => 'nullable | string',
+            'profile' => 'nullable | file',
             'email' => "nullable | email | unique:users,email,$userId",
             'gender' => "nullable | string | in:$genderTypeEnum",
             'dob' => 'nullable | date',

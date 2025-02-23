@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserStatusEnum;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use DB;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,6 +58,24 @@ class AuthController extends Controller
 
             return $this->success('user profile is successfully retrived', $user);
         } catch (Exception $e) {
+            return $this->internalServerError();
+        }
+    }
+
+    public function update($request)
+    {
+        $payload = collect($request->validated());
+        DB::beginTransaction();
+
+        try {
+            $user = auth()->user();
+            $user->update($payload->toArray());
+            DB::commit();
+
+            return $this->success('user profile is successfully retrived', $user);
+        } catch (Exception $e) {
+            DB::rollBack();
+
             return $this->internalServerError();
         }
     }

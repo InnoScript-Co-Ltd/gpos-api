@@ -58,9 +58,15 @@ class ItemController extends Controller
     {
         $payload = collect($request->validated());
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        if (isset($payload['photo'])) {
+            $profileImagePath = $payload['photo']->store('images', 'public');
+            $profileImage = explode('/', $profileImagePath)[1];
+            $payload['photo'] = $profileImage;
+        }
+
+        try {
             $item = Item::findOrFail($id);
             $item->update($payload->toArray());
             DB::commit();

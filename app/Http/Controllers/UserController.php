@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateReqeust;
-use App\Http\Requests\UserUpdateReqeust;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use DB;
 use Exception;
 
 class UserController extends Controller
 {
-    public function store(UserCreateReqeust $request)
+    public function store(UserCreateRequest $request)
     {
         $payload = collect($request->validated());
 
@@ -53,13 +53,19 @@ class UserController extends Controller
         }
     }
 
-    public function update(UserUpdateReqeust $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $payload = collect($request->validated());
 
-        try {
-            DB::beginTransaction();
+        if (isset($payload['profile'])) {
+            $profileImagePath = $payload['profile']->store('images', 'public');
+            $profileImage = explode('/', $profileImagePath)[1];
+            $payload['profile'] = $profileImage;
+        }
 
+        DB::beginTransaction();
+
+        try {
             $user = User::findOrFail($id);
             $user->update($payload->toArray());
             DB::commit();

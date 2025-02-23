@@ -16,12 +16,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
 
     Route::middleware('auth:api')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/logout', [AuthController::class, 'logout']);
+            Route::get('/profile', [AuthController::class, 'profile']);
         });
 
         Route::prefix('user')->group(function () {
             Route::post('/', [UserController::class, 'store']);
-            Route::put('/{id}', [UserController::class, 'update']);
+            Route::post('/{id}', [UserController::class, 'update']);
             Route::get('/', [UserController::class, 'index']);
             Route::get('/{id}', [UserController::class, 'show']);
             Route::delete('/{id}', [UserController::class, 'destroy']);
@@ -37,7 +37,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
 
         Route::prefix('item')->group(function () {
             Route::post('/', [ItemController::class, 'store']);
-            Route::put('/{id}', [ItemController::class, 'update']);
+            Route::post('/{id}', [ItemController::class, 'update']);
             Route::get('/', [ItemController::class, 'index']);
             Route::get('/{id}', [ItemController::class, 'show']);
             Route::delete('/{id}', [ItemController::class, 'destroy']);
@@ -55,7 +55,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
         });
 
         Route::prefix('invoice-item')->group(function () {
-            Route::post('/', [InvoiceItemController::class, 'update']);
+            Route::get('/', [InvoiceItemController::class, 'index']);
             Route::get('/{id}', [InvoiceItemController::class, 'show']);
         });
     });
