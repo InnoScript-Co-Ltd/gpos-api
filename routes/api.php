@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\ItemController;
@@ -58,6 +59,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
             Route::get('/', [InvoiceItemController::class, 'index']);
             Route::get('/{id}', [InvoiceItemController::class, 'show']);
         });
+        Route::prefix('customer')->group(function () {
+            Route::post('/', [CustomerController::class, 'store']);
+            Route::get('/', [CustomerController::class, 'index']);
+            Route::get('/{id}', [CustomerController::class, 'show']);
+            Route::delete('/{id}', [CustomerController::class, 'destroy']);
+            Route::post('/{id}', [CustomerController::class, 'update']);
+        });
     });
-
 });
