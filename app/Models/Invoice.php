@@ -12,6 +12,12 @@ class Invoice extends Model
     protected $table = 'invoices';
 
     protected $fillable = [
+        'customer_id',
+
         'iv_number', 'total_item_amount', 'tax', 'total_amount', 'pay_amount', 'refund_amount',
     ];
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class); 
+    }
 }
