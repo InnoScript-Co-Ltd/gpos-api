@@ -15,6 +15,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
         Route::post('/login', [AuthController::class, 'login']);
     });
 
+    Route::prefix("setting")->group(function () {
+        Route::get('/', [SettingController::class, 'show']);
+    });
+
     Route::middleware('auth:api')->group(function () {
         Route::prefix('auth')->group(function () {
             Route::get('/profile', [AuthController::class, 'profile']);
@@ -52,7 +56,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function ($router) {
 
         Route::prefix('setting')->group(function () {
             Route::post('/', [SettingController::class, 'update']);
-            Route::get('/', [SettingController::class, 'show']);
         });
 
         Route::prefix('invoice-item')->group(function () {
