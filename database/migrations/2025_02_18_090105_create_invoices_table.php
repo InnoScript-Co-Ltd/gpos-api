@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->id();
+            $table->id();  
+            $table->foreignId('customer_id'); 
             $table->string('iv_number');
             $table->float('total_item_amount', 12);
             $table->float('tax', 12)->default(0);
@@ -21,6 +22,8 @@ return new class extends Migration
             $table->float('refund_amount', 12)->default(0);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
